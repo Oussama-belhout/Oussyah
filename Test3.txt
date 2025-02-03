@@ -1,0 +1,47 @@
+PROGRAM exmpl_prog
+%Déclarations
+
+CHARACTER message*20, A*10, B*30, c DIMENSION(10);
+CHARACTER message*20, A*10, B*30, c DIMENSION(10);
+CHARACTER M DIMENSION(10,12), U DIMENSION(10,12), K DIMENSION(10), H;
+INTEGER x, y, d, num1, num2, W DIMENSION(10,20), S DIMENSION(10,20), I DIMENSION(10,20) ;
+LOGICAL T DIMENSION(10);
+LOGICAL condition;
+LOGICAL l,f;
+REAL r,t;
+
+%Instuctions
+l=TRUE;
+l=false;
+f=FALSE;  
+S(0,0)=W(10,20);
+I(1,1)=W(10,s(0,0))/0;
+READ(x);
+y=I(1,1);
+WRITE("Entrez la valeur de x :");
+READ(x);
+IF (x.EQ.1) THEN
+    y = x + 10;
+    message = "x est positif.";
+
+ELSE
+    y = x - 5;
+    message = "x est negatif ou nul.";
+ENDIF
+    s(0,1)=y;
+    d=5;
+    f=TRUE;
+    T(d)=FALSE;
+WRITE("La valeur de y et s et d et f sont ", y,s,d,f ,".");
+WRITE("Message : x s d f ",message,s,d,f);
+DOWHILE ((y.LT.20).AND.((y-x.AND.d).OU.(d.GT.r))) 
+    z(y) = y * 2.5;
+    y = y + 1;
+ENDDO
+EQUIVALENCE (x, y), (z(5), z(7));
+num1 = 10;
+num2 = 20;
+
+i = CALL add_number(num1,num2);
+i = CALL add_number();
+END

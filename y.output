@@ -1,0 +1,1868 @@
+Terminals unused in grammar
+
+   routine
+   endr
+   dp
+
+
+Grammaire
+
+    0 $accept: PROGRAM_P $end
+
+    1 PROGRAM_P: program id LIST_DEC LIST_INST end
+
+    2 LIST_DEC: DEC LIST_DEC
+    3         | /* vide */
+
+    4 DEC: TYPE LIST_IDF sc
+    5    | TYPE DEC_CHAR sc
+
+    6 DEC_CHAR: id mult cst cm DEC_CHAR
+    7         | id mult cst cm LIST_IDF
+    8         | id mult cst
+
+    9 LIST_IDF: id cm LIST_IDF
+   10         | TAB cm LIST_IDF
+   11         | TAB
+   12         | id
+
+   13 TAB: id dimension gparen cst dparen
+   14    | id dimension gparen cst cm cst dparen
+
+   15 TYPE: integer
+   16     | character
+   17     | real
+   18     | logical
+
+   19 LIST_INST: INST LIST_INST
+   20          | /* vide */
+
+   21 INST: INST_AFF sc
+   22     | READ sc
+   23     | WRITE sc
+   24     | CONDITIONAL
+   25     | LOOP
+   26     | EQUIVALENCE sc
+
+   27 INST_AFF: ID egale E
+   28         | ID egale CALL_FUNCTION
+
+   29 E: E1
+
+   30 E1: E1 plus E2
+   31   | E1 minus E2
+   32   | E2
+
+   33 E2: E2 mult E3
+   34   | E2 divis E3
+   35   | E3
+
+   36 E3: gparen E dparen
+   37   | VAR
+
+   38 VAR: int_val
+   39    | real_val
+   40    | str_val
+   41    | BOOL
+   42    | cst
+
+   43 BOOL: bool_val
+   44     | ID
+
+   45 ID: id
+   46   | TAB_ID
+
+   47 TAB_ID: id gparen E dparen
+   48       | id gparen E cm E dparen
+
+   49 CALL_FUNCTION: call id gparen ARGUMENT_LIST dparen
+
+   50 ARGUMENT_LIST: E cm ARGUMENT_LIST
+   51              | E
+   52              | /* vide */
+
+   53 READ: read gparen ID dparen
+
+   54 WRITE: write gparen str_val cm ID_LIST
+   55      | write gparen str_val dparen
+
+   56 ID_LIST: ID cm ID_LIST
+   57        | ID END_LIST
+
+   58 END_LIST: cm str_val dparen
+   59         | dparen
+
+   60 CONDITIONAL: DEB_COND sinon LIST_INST endif
+   61            | DEB_COND endif
+
+   62 DEB_COND: DEB_IF then LIST_INST
+
+   63 DEB_IF: si gparen CONDITION dparen
+
+   64 LOOP: dowhile gparen CONDITION dparen LIST_INST enddo
+
+   65 CONDITION: CONDITION eq CONDITION1
+   66          | CONDITION1
+   67          | CONDITION ne CONDITION1
+   68          | CONDITION gt CONDITION1
+   69          | CONDITION ge CONDITION1
+   70          | CONDITION le CONDITION1
+   71          | CONDITION lt CONDITION1
+
+   72 CONDITION1: CONDITION1 ou CONDITION2
+   73           | CONDITION2
+   74           | CONDITION1 et CONDITION2
+
+   75 CONDITION2: gparen BOOL dparen
+   76           | gparen CONDITION dparen
+
+   77 EQUIVALENCE: equivalence EQUIV
+
+   78 EQUIV: gparen VAR_LIST dparen cm EQUIV
+   79      | gparen VAR_LIST dparen
+
+   80 VAR_LIST: ID cm VAR_LIST
+   81         | ID
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+error (256)
+id (258) 1 6 7 8 9 12 13 14 45 47 48 49
+cst (259) 6 7 8 13 14 42
+int_val (260) 38
+real_val (261) 39
+str_val (262) 40 54 55 58
+bool_val (263) 43
+program (264) 1
+end (265) 1
+routine (266)
+endr (267)
+si (268) 63
+then (269) 62
+sinon (270) 60
+endif (271) 60 61
+dowhile (272) 64
+enddo (273) 64
+equivalence (274) 77
+read (275) 53
+write (276) 54 55
+call (277) 49
+sc (278) 4 5 21 22 23 26
+cm (279) 6 7 9 10 14 48 50 54 56 58 78 80
+gparen (280) 13 14 36 47 48 49 53 54 55 63 64 75 76 78 79
+dparen (281) 13 14 36 47 48 49 53 55 58 59 63 64 75 76 78 79
+plus (282) 30
+minus (283) 31
+mult (284) 6 7 8 33
+divis (285) 34
+egale (286) 27 28
+integer (287) 15
+character (288) 16
+real (289) 17
+logical (290) 18
+dimension (291) 13 14
+dp (292)
+eq (293) 65
+ou (294) 72
+et (295) 74
+gt (296) 68
+ge (297) 69
+ne (298) 67
+le (299) 70
+lt (300) 71
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (46)
+    à gauche: 0
+PROGRAM_P (47)
+    à gauche: 1, à droite: 0
+LIST_DEC (48)
+    à gauche: 2 3, à droite: 1 2
+DEC (49)
+    à gauche: 4 5, à droite: 2
+DEC_CHAR (50)
+    à gauche: 6 7 8, à droite: 5 6
+LIST_IDF (51)
+    à gauche: 9 10 11 12, à droite: 4 7 9 10
+TAB (52)
+    à gauche: 13 14, à droite: 10 11
+TYPE (53)
+    à gauche: 15 16 17 18, à droite: 4 5
+LIST_INST (54)
+    à gauche: 19 20, à droite: 1 19 60 62 64
+INST (55)
+    à gauche: 21 22 23 24 25 26, à droite: 19
+INST_AFF (56)
+    à gauche: 27 28, à droite: 21
+E (57)
+    à gauche: 29, à droite: 27 36 47 48 50 51
+E1 (58)
+    à gauche: 30 31 32, à droite: 29 30 31
+E2 (59)
+    à gauche: 33 34 35, à droite: 30 31 32 33 34
+E3 (60)
+    à gauche: 36 37, à droite: 33 34 35
+VAR (61)
+    à gauche: 38 39 40 41 42, à droite: 37
+BOOL (62)
+    à gauche: 43 44, à droite: 41 75
+ID (63)
+    à gauche: 45 46, à droite: 27 28 44 53 56 57 80 81
+TAB_ID (64)
+    à gauche: 47 48, à droite: 46
+CALL_FUNCTION (65)
+    à gauche: 49, à droite: 28
+ARGUMENT_LIST (66)
+    à gauche: 50 51 52, à droite: 49 50
+READ (67)
+    à gauche: 53, à droite: 22
+WRITE (68)
+    à gauche: 54 55, à droite: 23
+ID_LIST (69)
+    à gauche: 56 57, à droite: 54 56
+END_LIST (70)
+    à gauche: 58 59, à droite: 57
+CONDITIONAL (71)
+    à gauche: 60 61, à droite: 24
+DEB_COND (72)
+    à gauche: 62, à droite: 60 61
+DEB_IF (73)
+    à gauche: 63, à droite: 62
+LOOP (74)
+    à gauche: 64, à droite: 25
+CONDITION (75)
+    à gauche: 65 66 67 68 69 70 71, à droite: 63 64 65 67 68 69 70
+    71 76
+CONDITION1 (76)
+    à gauche: 72 73 74, à droite: 65 66 67 68 69 70 71 72 74
+CONDITION2 (77)
+    à gauche: 75 76, à droite: 72 73 74
+EQUIVALENCE (78)
+    à gauche: 77, à droite: 26
+EQUIV (79)
+    à gauche: 78 79, à droite: 77 78
+VAR_LIST (80)
+    à gauche: 80 81, à droite: 78 79 80
+
+
+état 0
+
+    0 $accept: . PROGRAM_P $end
+
+    program  décalage et aller à l'état 1
+
+    PROGRAM_P  aller à l'état 2
+
+
+état 1
+
+    1 PROGRAM_P: program . id LIST_DEC LIST_INST end
+
+    id  décalage et aller à l'état 3
+
+
+état 2
+
+    0 $accept: PROGRAM_P . $end
+
+    $end  décalage et aller à l'état 4
+
+
+état 3
+
+    1 PROGRAM_P: program id . LIST_DEC LIST_INST end
+
+    integer    décalage et aller à l'état 5
+    character  décalage et aller à l'état 6
+    real       décalage et aller à l'état 7
+    logical    décalage et aller à l'état 8
+
+    $défaut  réduction par utilisation de la règle 3 (LIST_DEC)
+
+    LIST_DEC  aller à l'état 9
+    DEC       aller à l'état 10
+    TYPE      aller à l'état 11
+
+
+état 4
+
+    0 $accept: PROGRAM_P $end .
+
+    $défaut  accepter
+
+
+état 5
+
+   15 TYPE: integer .
+
+    $défaut  réduction par utilisation de la règle 15 (TYPE)
+
+
+état 6
+
+   16 TYPE: character .
+
+    $défaut  réduction par utilisation de la règle 16 (TYPE)
+
+
+état 7
+
+   17 TYPE: real .
+
+    $défaut  réduction par utilisation de la règle 17 (TYPE)
+
+
+état 8
+
+   18 TYPE: logical .
+
+    $défaut  réduction par utilisation de la règle 18 (TYPE)
+
+
+état 9
+
+    1 PROGRAM_P: program id LIST_DEC . LIST_INST end
+
+    id           décalage et aller à l'état 12
+    si           décalage et aller à l'état 13
+    dowhile      décalage et aller à l'état 14
+    equivalence  décalage et aller à l'état 15
+    read         décalage et aller à l'état 16
+    write        décalage et aller à l'état 17
+
+    $défaut  réduction par utilisation de la règle 20 (LIST_INST)
+
+    LIST_INST    aller à l'état 18
+    INST         aller à l'état 19
+    INST_AFF     aller à l'état 20
+    ID           aller à l'état 21
+    TAB_ID       aller à l'état 22
+    READ         aller à l'état 23
+    WRITE        aller à l'état 24
+    CONDITIONAL  aller à l'état 25
+    DEB_COND     aller à l'état 26
+    DEB_IF       aller à l'état 27
+    LOOP         aller à l'état 28
+    EQUIVALENCE  aller à l'état 29
+
+
+état 10
+
+    2 LIST_DEC: DEC . LIST_DEC
+
+    integer    décalage et aller à l'état 5
+    character  décalage et aller à l'état 6
+    real       décalage et aller à l'état 7
+    logical    décalage et aller à l'état 8
+
+    $défaut  réduction par utilisation de la règle 3 (LIST_DEC)
+
+    LIST_DEC  aller à l'état 30
+    DEC       aller à l'état 10
+    TYPE      aller à l'état 11
+
+
+état 11
+
+    4 DEC: TYPE . LIST_IDF sc
+    5    | TYPE . DEC_CHAR sc
+
+    id  décalage et aller à l'état 31
+
+    DEC_CHAR  aller à l'état 32
+    LIST_IDF  aller à l'état 33
+    TAB       aller à l'état 34
+
+
+état 12
+
+   45 ID: id .
+   47 TAB_ID: id . gparen E dparen
+   48       | id . gparen E cm E dparen
+
+    gparen  décalage et aller à l'état 35
+
+    $défaut  réduction par utilisation de la règle 45 (ID)
+
+
+état 13
+
+   63 DEB_IF: si . gparen CONDITION dparen
+
+    gparen  décalage et aller à l'état 36
+
+
+état 14
+
+   64 LOOP: dowhile . gparen CONDITION dparen LIST_INST enddo
+
+    gparen  décalage et aller à l'état 37
+
+
+état 15
+
+   77 EQUIVALENCE: equivalence . EQUIV
+
+    gparen  décalage et aller à l'état 38
+
+    EQUIV  aller à l'état 39
+
+
+état 16
+
+   53 READ: read . gparen ID dparen
+
+    gparen  décalage et aller à l'état 40
+
+
+état 17
+
+   54 WRITE: write . gparen str_val cm ID_LIST
+   55      | write . gparen str_val dparen
+
+    gparen  décalage et aller à l'état 41
+
+
+état 18
+
+    1 PROGRAM_P: program id LIST_DEC LIST_INST . end
+
+    end  décalage et aller à l'état 42
+
+
+état 19
+
+   19 LIST_INST: INST . LIST_INST
+
+    id           décalage et aller à l'état 12
+    si           décalage et aller à l'état 13
+    dowhile      décalage et aller à l'état 14
+    equivalence  décalage et aller à l'état 15
+    read         décalage et aller à l'état 16
+    write        décalage et aller à l'état 17
+
+    $défaut  réduction par utilisation de la règle 20 (LIST_INST)
+
+    LIST_INST    aller à l'état 43
+    INST         aller à l'état 19
+    INST_AFF     aller à l'état 20
+    ID           aller à l'état 21
+    TAB_ID       aller à l'état 22
+    READ         aller à l'état 23
+    WRITE        aller à l'état 24
+    CONDITIONAL  aller à l'état 25
+    DEB_COND     aller à l'état 26
+    DEB_IF       aller à l'état 27
+    LOOP         aller à l'état 28
+    EQUIVALENCE  aller à l'état 29
+
+
+état 20
+
+   21 INST: INST_AFF . sc
+
+    sc  décalage et aller à l'état 44
+
+
+état 21
+
+   27 INST_AFF: ID . egale E
+   28         | ID . egale CALL_FUNCTION
+
+    egale  décalage et aller à l'état 45
+
+
+état 22
+
+   46 ID: TAB_ID .
+
+    $défaut  réduction par utilisation de la règle 46 (ID)
+
+
+état 23
+
+   22 INST: READ . sc
+
+    sc  décalage et aller à l'état 46
+
+
+état 24
+
+   23 INST: WRITE . sc
+
+    sc  décalage et aller à l'état 47
+
+
+état 25
+
+   24 INST: CONDITIONAL .
+
+    $défaut  réduction par utilisation de la règle 24 (INST)
+
+
+état 26
+
+   60 CONDITIONAL: DEB_COND . sinon LIST_INST endif
+   61            | DEB_COND . endif
+
+    sinon  décalage et aller à l'état 48
+    endif  décalage et aller à l'état 49
+
+
+état 27
+
+   62 DEB_COND: DEB_IF . then LIST_INST
+
+    then  décalage et aller à l'état 50
+
+
+état 28
+
+   25 INST: LOOP .
+
+    $défaut  réduction par utilisation de la règle 25 (INST)
+
+
+état 29
+
+   26 INST: EQUIVALENCE . sc
+
+    sc  décalage et aller à l'état 51
+
+
+état 30
+
+    2 LIST_DEC: DEC LIST_DEC .
+
+    $défaut  réduction par utilisation de la règle 2 (LIST_DEC)
+
+
+état 31
+
+    6 DEC_CHAR: id . mult cst cm DEC_CHAR
+    7         | id . mult cst cm LIST_IDF
+    8         | id . mult cst
+    9 LIST_IDF: id . cm LIST_IDF
+   12         | id .
+   13 TAB: id . dimension gparen cst dparen
+   14    | id . dimension gparen cst cm cst dparen
+
+    cm         décalage et aller à l'état 52
+    mult       décalage et aller à l'état 53
+    dimension  décalage et aller à l'état 54
+
+    $défaut  réduction par utilisation de la règle 12 (LIST_IDF)
+
+
+état 32
+
+    5 DEC: TYPE DEC_CHAR . sc
+
+    sc  décalage et aller à l'état 55
+
+
+état 33
+
+    4 DEC: TYPE LIST_IDF . sc
+
+    sc  décalage et aller à l'état 56
+
+
+état 34
+
+   10 LIST_IDF: TAB . cm LIST_IDF
+   11         | TAB .
+
+    cm  décalage et aller à l'état 57
+
+    $défaut  réduction par utilisation de la règle 11 (LIST_IDF)
+
+
+état 35
+
+   47 TAB_ID: id gparen . E dparen
+   48       | id gparen . E cm E dparen
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E       aller à l'état 64
+    E1      aller à l'état 65
+    E2      aller à l'état 66
+    E3      aller à l'état 67
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 36
+
+   63 DEB_IF: si gparen . CONDITION dparen
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION   aller à l'état 72
+    CONDITION1  aller à l'état 73
+    CONDITION2  aller à l'état 74
+
+
+état 37
+
+   64 LOOP: dowhile gparen . CONDITION dparen LIST_INST enddo
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION   aller à l'état 75
+    CONDITION1  aller à l'état 73
+    CONDITION2  aller à l'état 74
+
+
+état 38
+
+   78 EQUIV: gparen . VAR_LIST dparen cm EQUIV
+   79      | gparen . VAR_LIST dparen
+
+    id  décalage et aller à l'état 12
+
+    ID        aller à l'état 76
+    TAB_ID    aller à l'état 22
+    VAR_LIST  aller à l'état 77
+
+
+état 39
+
+   77 EQUIVALENCE: equivalence EQUIV .
+
+    $défaut  réduction par utilisation de la règle 77 (EQUIVALENCE)
+
+
+état 40
+
+   53 READ: read gparen . ID dparen
+
+    id  décalage et aller à l'état 12
+
+    ID      aller à l'état 78
+    TAB_ID  aller à l'état 22
+
+
+état 41
+
+   54 WRITE: write gparen . str_val cm ID_LIST
+   55      | write gparen . str_val dparen
+
+    str_val  décalage et aller à l'état 79
+
+
+état 42
+
+    1 PROGRAM_P: program id LIST_DEC LIST_INST end .
+
+    $défaut  réduction par utilisation de la règle 1 (PROGRAM_P)
+
+
+état 43
+
+   19 LIST_INST: INST LIST_INST .
+
+    $défaut  réduction par utilisation de la règle 19 (LIST_INST)
+
+
+état 44
+
+   21 INST: INST_AFF sc .
+
+    $défaut  réduction par utilisation de la règle 21 (INST)
+
+
+état 45
+
+   27 INST_AFF: ID egale . E
+   28         | ID egale . CALL_FUNCTION
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    call      décalage et aller à l'état 80
+    gparen    décalage et aller à l'état 63
+
+    E              aller à l'état 81
+    E1             aller à l'état 65
+    E2             aller à l'état 66
+    E3             aller à l'état 67
+    VAR            aller à l'état 68
+    BOOL           aller à l'état 69
+    ID             aller à l'état 70
+    TAB_ID         aller à l'état 22
+    CALL_FUNCTION  aller à l'état 82
+
+
+état 46
+
+   22 INST: READ sc .
+
+    $défaut  réduction par utilisation de la règle 22 (INST)
+
+
+état 47
+
+   23 INST: WRITE sc .
+
+    $défaut  réduction par utilisation de la règle 23 (INST)
+
+
+état 48
+
+   60 CONDITIONAL: DEB_COND sinon . LIST_INST endif
+
+    id           décalage et aller à l'état 12
+    si           décalage et aller à l'état 13
+    dowhile      décalage et aller à l'état 14
+    equivalence  décalage et aller à l'état 15
+    read         décalage et aller à l'état 16
+    write        décalage et aller à l'état 17
+
+    $défaut  réduction par utilisation de la règle 20 (LIST_INST)
+
+    LIST_INST    aller à l'état 83
+    INST         aller à l'état 19
+    INST_AFF     aller à l'état 20
+    ID           aller à l'état 21
+    TAB_ID       aller à l'état 22
+    READ         aller à l'état 23
+    WRITE        aller à l'état 24
+    CONDITIONAL  aller à l'état 25
+    DEB_COND     aller à l'état 26
+    DEB_IF       aller à l'état 27
+    LOOP         aller à l'état 28
+    EQUIVALENCE  aller à l'état 29
+
+
+état 49
+
+   61 CONDITIONAL: DEB_COND endif .
+
+    $défaut  réduction par utilisation de la règle 61 (CONDITIONAL)
+
+
+état 50
+
+   62 DEB_COND: DEB_IF then . LIST_INST
+
+    id           décalage et aller à l'état 12
+    si           décalage et aller à l'état 13
+    dowhile      décalage et aller à l'état 14
+    equivalence  décalage et aller à l'état 15
+    read         décalage et aller à l'état 16
+    write        décalage et aller à l'état 17
+
+    $défaut  réduction par utilisation de la règle 20 (LIST_INST)
+
+    LIST_INST    aller à l'état 84
+    INST         aller à l'état 19
+    INST_AFF     aller à l'état 20
+    ID           aller à l'état 21
+    TAB_ID       aller à l'état 22
+    READ         aller à l'état 23
+    WRITE        aller à l'état 24
+    CONDITIONAL  aller à l'état 25
+    DEB_COND     aller à l'état 26
+    DEB_IF       aller à l'état 27
+    LOOP         aller à l'état 28
+    EQUIVALENCE  aller à l'état 29
+
+
+état 51
+
+   26 INST: EQUIVALENCE sc .
+
+    $défaut  réduction par utilisation de la règle 26 (INST)
+
+
+état 52
+
+    9 LIST_IDF: id cm . LIST_IDF
+
+    id  décalage et aller à l'état 85
+
+    LIST_IDF  aller à l'état 86
+    TAB       aller à l'état 34
+
+
+état 53
+
+    6 DEC_CHAR: id mult . cst cm DEC_CHAR
+    7         | id mult . cst cm LIST_IDF
+    8         | id mult . cst
+
+    cst  décalage et aller à l'état 87
+
+
+état 54
+
+   13 TAB: id dimension . gparen cst dparen
+   14    | id dimension . gparen cst cm cst dparen
+
+    gparen  décalage et aller à l'état 88
+
+
+état 55
+
+    5 DEC: TYPE DEC_CHAR sc .
+
+    $défaut  réduction par utilisation de la règle 5 (DEC)
+
+
+état 56
+
+    4 DEC: TYPE LIST_IDF sc .
+
+    $défaut  réduction par utilisation de la règle 4 (DEC)
+
+
+état 57
+
+   10 LIST_IDF: TAB cm . LIST_IDF
+
+    id  décalage et aller à l'état 85
+
+    LIST_IDF  aller à l'état 89
+    TAB       aller à l'état 34
+
+
+état 58
+
+   42 VAR: cst .
+
+    $défaut  réduction par utilisation de la règle 42 (VAR)
+
+
+état 59
+
+   38 VAR: int_val .
+
+    $défaut  réduction par utilisation de la règle 38 (VAR)
+
+
+état 60
+
+   39 VAR: real_val .
+
+    $défaut  réduction par utilisation de la règle 39 (VAR)
+
+
+état 61
+
+   40 VAR: str_val .
+
+    $défaut  réduction par utilisation de la règle 40 (VAR)
+
+
+état 62
+
+   43 BOOL: bool_val .
+
+    $défaut  réduction par utilisation de la règle 43 (BOOL)
+
+
+état 63
+
+   36 E3: gparen . E dparen
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E       aller à l'état 90
+    E1      aller à l'état 65
+    E2      aller à l'état 66
+    E3      aller à l'état 67
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 64
+
+   47 TAB_ID: id gparen E . dparen
+   48       | id gparen E . cm E dparen
+
+    cm      décalage et aller à l'état 91
+    dparen  décalage et aller à l'état 92
+
+
+état 65
+
+   29 E: E1 .
+   30 E1: E1 . plus E2
+   31   | E1 . minus E2
+
+    plus   décalage et aller à l'état 93
+    minus  décalage et aller à l'état 94
+
+    $défaut  réduction par utilisation de la règle 29 (E)
+
+
+état 66
+
+   32 E1: E2 .
+   33 E2: E2 . mult E3
+   34   | E2 . divis E3
+
+    mult   décalage et aller à l'état 95
+    divis  décalage et aller à l'état 96
+
+    $défaut  réduction par utilisation de la règle 32 (E1)
+
+
+état 67
+
+   35 E2: E3 .
+
+    $défaut  réduction par utilisation de la règle 35 (E2)
+
+
+état 68
+
+   37 E3: VAR .
+
+    $défaut  réduction par utilisation de la règle 37 (E3)
+
+
+état 69
+
+   41 VAR: BOOL .
+
+    $défaut  réduction par utilisation de la règle 41 (VAR)
+
+
+état 70
+
+   44 BOOL: ID .
+
+    $défaut  réduction par utilisation de la règle 44 (BOOL)
+
+
+état 71
+
+   75 CONDITION2: gparen . BOOL dparen
+   76           | gparen . CONDITION dparen
+
+    id        décalage et aller à l'état 12
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 71
+
+    BOOL        aller à l'état 97
+    ID          aller à l'état 70
+    TAB_ID      aller à l'état 22
+    CONDITION   aller à l'état 98
+    CONDITION1  aller à l'état 73
+    CONDITION2  aller à l'état 74
+
+
+état 72
+
+   63 DEB_IF: si gparen CONDITION . dparen
+   65 CONDITION: CONDITION . eq CONDITION1
+   67          | CONDITION . ne CONDITION1
+   68          | CONDITION . gt CONDITION1
+   69          | CONDITION . ge CONDITION1
+   70          | CONDITION . le CONDITION1
+   71          | CONDITION . lt CONDITION1
+
+    dparen  décalage et aller à l'état 99
+    eq      décalage et aller à l'état 100
+    gt      décalage et aller à l'état 101
+    ge      décalage et aller à l'état 102
+    ne      décalage et aller à l'état 103
+    le      décalage et aller à l'état 104
+    lt      décalage et aller à l'état 105
+
+
+état 73
+
+   66 CONDITION: CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 66 (CONDITION)
+
+
+état 74
+
+   73 CONDITION1: CONDITION2 .
+
+    $défaut  réduction par utilisation de la règle 73 (CONDITION1)
+
+
+état 75
+
+   64 LOOP: dowhile gparen CONDITION . dparen LIST_INST enddo
+   65 CONDITION: CONDITION . eq CONDITION1
+   67          | CONDITION . ne CONDITION1
+   68          | CONDITION . gt CONDITION1
+   69          | CONDITION . ge CONDITION1
+   70          | CONDITION . le CONDITION1
+   71          | CONDITION . lt CONDITION1
+
+    dparen  décalage et aller à l'état 108
+    eq      décalage et aller à l'état 100
+    gt      décalage et aller à l'état 101
+    ge      décalage et aller à l'état 102
+    ne      décalage et aller à l'état 103
+    le      décalage et aller à l'état 104
+    lt      décalage et aller à l'état 105
+
+
+état 76
+
+   80 VAR_LIST: ID . cm VAR_LIST
+   81         | ID .
+
+    cm  décalage et aller à l'état 109
+
+    $défaut  réduction par utilisation de la règle 81 (VAR_LIST)
+
+
+état 77
+
+   78 EQUIV: gparen VAR_LIST . dparen cm EQUIV
+   79      | gparen VAR_LIST . dparen
+
+    dparen  décalage et aller à l'état 110
+
+
+état 78
+
+   53 READ: read gparen ID . dparen
+
+    dparen  décalage et aller à l'état 111
+
+
+état 79
+
+   54 WRITE: write gparen str_val . cm ID_LIST
+   55      | write gparen str_val . dparen
+
+    cm      décalage et aller à l'état 112
+    dparen  décalage et aller à l'état 113
+
+
+état 80
+
+   49 CALL_FUNCTION: call . id gparen ARGUMENT_LIST dparen
+
+    id  décalage et aller à l'état 114
+
+
+état 81
+
+   27 INST_AFF: ID egale E .
+
+    $défaut  réduction par utilisation de la règle 27 (INST_AFF)
+
+
+état 82
+
+   28 INST_AFF: ID egale CALL_FUNCTION .
+
+    $défaut  réduction par utilisation de la règle 28 (INST_AFF)
+
+
+état 83
+
+   60 CONDITIONAL: DEB_COND sinon LIST_INST . endif
+
+    endif  décalage et aller à l'état 115
+
+
+état 84
+
+   62 DEB_COND: DEB_IF then LIST_INST .
+
+    $défaut  réduction par utilisation de la règle 62 (DEB_COND)
+
+
+état 85
+
+    9 LIST_IDF: id . cm LIST_IDF
+   12         | id .
+   13 TAB: id . dimension gparen cst dparen
+   14    | id . dimension gparen cst cm cst dparen
+
+    cm         décalage et aller à l'état 52
+    dimension  décalage et aller à l'état 54
+
+    $défaut  réduction par utilisation de la règle 12 (LIST_IDF)
+
+
+état 86
+
+    9 LIST_IDF: id cm LIST_IDF .
+
+    $défaut  réduction par utilisation de la règle 9 (LIST_IDF)
+
+
+état 87
+
+    6 DEC_CHAR: id mult cst . cm DEC_CHAR
+    7         | id mult cst . cm LIST_IDF
+    8         | id mult cst .
+
+    cm  décalage et aller à l'état 116
+
+    $défaut  réduction par utilisation de la règle 8 (DEC_CHAR)
+
+
+état 88
+
+   13 TAB: id dimension gparen . cst dparen
+   14    | id dimension gparen . cst cm cst dparen
+
+    cst  décalage et aller à l'état 117
+
+
+état 89
+
+   10 LIST_IDF: TAB cm LIST_IDF .
+
+    $défaut  réduction par utilisation de la règle 10 (LIST_IDF)
+
+
+état 90
+
+   36 E3: gparen E . dparen
+
+    dparen  décalage et aller à l'état 118
+
+
+état 91
+
+   48 TAB_ID: id gparen E cm . E dparen
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E       aller à l'état 119
+    E1      aller à l'état 65
+    E2      aller à l'état 66
+    E3      aller à l'état 67
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 92
+
+   47 TAB_ID: id gparen E dparen .
+
+    $défaut  réduction par utilisation de la règle 47 (TAB_ID)
+
+
+état 93
+
+   30 E1: E1 plus . E2
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E2      aller à l'état 120
+    E3      aller à l'état 67
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 94
+
+   31 E1: E1 minus . E2
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E2      aller à l'état 121
+    E3      aller à l'état 67
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 95
+
+   33 E2: E2 mult . E3
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E3      aller à l'état 122
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 96
+
+   34 E2: E2 divis . E3
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    E3      aller à l'état 123
+    VAR     aller à l'état 68
+    BOOL    aller à l'état 69
+    ID      aller à l'état 70
+    TAB_ID  aller à l'état 22
+
+
+état 97
+
+   75 CONDITION2: gparen BOOL . dparen
+
+    dparen  décalage et aller à l'état 124
+
+
+état 98
+
+   65 CONDITION: CONDITION . eq CONDITION1
+   67          | CONDITION . ne CONDITION1
+   68          | CONDITION . gt CONDITION1
+   69          | CONDITION . ge CONDITION1
+   70          | CONDITION . le CONDITION1
+   71          | CONDITION . lt CONDITION1
+   76 CONDITION2: gparen CONDITION . dparen
+
+    dparen  décalage et aller à l'état 125
+    eq      décalage et aller à l'état 100
+    gt      décalage et aller à l'état 101
+    ge      décalage et aller à l'état 102
+    ne      décalage et aller à l'état 103
+    le      décalage et aller à l'état 104
+    lt      décalage et aller à l'état 105
+
+
+état 99
+
+   63 DEB_IF: si gparen CONDITION dparen .
+
+    $défaut  réduction par utilisation de la règle 63 (DEB_IF)
+
+
+état 100
+
+   65 CONDITION: CONDITION eq . CONDITION1
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION1  aller à l'état 126
+    CONDITION2  aller à l'état 74
+
+
+état 101
+
+   68 CONDITION: CONDITION gt . CONDITION1
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION1  aller à l'état 127
+    CONDITION2  aller à l'état 74
+
+
+état 102
+
+   69 CONDITION: CONDITION ge . CONDITION1
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION1  aller à l'état 128
+    CONDITION2  aller à l'état 74
+
+
+état 103
+
+   67 CONDITION: CONDITION ne . CONDITION1
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION1  aller à l'état 129
+    CONDITION2  aller à l'état 74
+
+
+état 104
+
+   70 CONDITION: CONDITION le . CONDITION1
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION1  aller à l'état 130
+    CONDITION2  aller à l'état 74
+
+
+état 105
+
+   71 CONDITION: CONDITION lt . CONDITION1
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION1  aller à l'état 131
+    CONDITION2  aller à l'état 74
+
+
+état 106
+
+   72 CONDITION1: CONDITION1 ou . CONDITION2
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION2  aller à l'état 132
+
+
+état 107
+
+   74 CONDITION1: CONDITION1 et . CONDITION2
+
+    gparen  décalage et aller à l'état 71
+
+    CONDITION2  aller à l'état 133
+
+
+état 108
+
+   64 LOOP: dowhile gparen CONDITION dparen . LIST_INST enddo
+
+    id           décalage et aller à l'état 12
+    si           décalage et aller à l'état 13
+    dowhile      décalage et aller à l'état 14
+    equivalence  décalage et aller à l'état 15
+    read         décalage et aller à l'état 16
+    write        décalage et aller à l'état 17
+
+    $défaut  réduction par utilisation de la règle 20 (LIST_INST)
+
+    LIST_INST    aller à l'état 134
+    INST         aller à l'état 19
+    INST_AFF     aller à l'état 20
+    ID           aller à l'état 21
+    TAB_ID       aller à l'état 22
+    READ         aller à l'état 23
+    WRITE        aller à l'état 24
+    CONDITIONAL  aller à l'état 25
+    DEB_COND     aller à l'état 26
+    DEB_IF       aller à l'état 27
+    LOOP         aller à l'état 28
+    EQUIVALENCE  aller à l'état 29
+
+
+état 109
+
+   80 VAR_LIST: ID cm . VAR_LIST
+
+    id  décalage et aller à l'état 12
+
+    ID        aller à l'état 76
+    TAB_ID    aller à l'état 22
+    VAR_LIST  aller à l'état 135
+
+
+état 110
+
+   78 EQUIV: gparen VAR_LIST dparen . cm EQUIV
+   79      | gparen VAR_LIST dparen .
+
+    cm  décalage et aller à l'état 136
+
+    $défaut  réduction par utilisation de la règle 79 (EQUIV)
+
+
+état 111
+
+   53 READ: read gparen ID dparen .
+
+    $défaut  réduction par utilisation de la règle 53 (READ)
+
+
+état 112
+
+   54 WRITE: write gparen str_val cm . ID_LIST
+
+    id  décalage et aller à l'état 12
+
+    ID       aller à l'état 137
+    TAB_ID   aller à l'état 22
+    ID_LIST  aller à l'état 138
+
+
+état 113
+
+   55 WRITE: write gparen str_val dparen .
+
+    $défaut  réduction par utilisation de la règle 55 (WRITE)
+
+
+état 114
+
+   49 CALL_FUNCTION: call id . gparen ARGUMENT_LIST dparen
+
+    gparen  décalage et aller à l'état 139
+
+
+état 115
+
+   60 CONDITIONAL: DEB_COND sinon LIST_INST endif .
+
+    $défaut  réduction par utilisation de la règle 60 (CONDITIONAL)
+
+
+état 116
+
+    6 DEC_CHAR: id mult cst cm . DEC_CHAR
+    7         | id mult cst cm . LIST_IDF
+
+    id  décalage et aller à l'état 31
+
+    DEC_CHAR  aller à l'état 140
+    LIST_IDF  aller à l'état 141
+    TAB       aller à l'état 34
+
+
+état 117
+
+   13 TAB: id dimension gparen cst . dparen
+   14    | id dimension gparen cst . cm cst dparen
+
+    cm      décalage et aller à l'état 142
+    dparen  décalage et aller à l'état 143
+
+
+état 118
+
+   36 E3: gparen E dparen .
+
+    $défaut  réduction par utilisation de la règle 36 (E3)
+
+
+état 119
+
+   48 TAB_ID: id gparen E cm E . dparen
+
+    dparen  décalage et aller à l'état 144
+
+
+état 120
+
+   30 E1: E1 plus E2 .
+   33 E2: E2 . mult E3
+   34   | E2 . divis E3
+
+    mult   décalage et aller à l'état 95
+    divis  décalage et aller à l'état 96
+
+    $défaut  réduction par utilisation de la règle 30 (E1)
+
+
+état 121
+
+   31 E1: E1 minus E2 .
+   33 E2: E2 . mult E3
+   34   | E2 . divis E3
+
+    mult   décalage et aller à l'état 95
+    divis  décalage et aller à l'état 96
+
+    $défaut  réduction par utilisation de la règle 31 (E1)
+
+
+état 122
+
+   33 E2: E2 mult E3 .
+
+    $défaut  réduction par utilisation de la règle 33 (E2)
+
+
+état 123
+
+   34 E2: E2 divis E3 .
+
+    $défaut  réduction par utilisation de la règle 34 (E2)
+
+
+état 124
+
+   75 CONDITION2: gparen BOOL dparen .
+
+    $défaut  réduction par utilisation de la règle 75 (CONDITION2)
+
+
+état 125
+
+   76 CONDITION2: gparen CONDITION dparen .
+
+    $défaut  réduction par utilisation de la règle 76 (CONDITION2)
+
+
+état 126
+
+   65 CONDITION: CONDITION eq CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 65 (CONDITION)
+
+
+état 127
+
+   68 CONDITION: CONDITION gt CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 68 (CONDITION)
+
+
+état 128
+
+   69 CONDITION: CONDITION ge CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 69 (CONDITION)
+
+
+état 129
+
+   67 CONDITION: CONDITION ne CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 67 (CONDITION)
+
+
+état 130
+
+   70 CONDITION: CONDITION le CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 70 (CONDITION)
+
+
+état 131
+
+   71 CONDITION: CONDITION lt CONDITION1 .
+   72 CONDITION1: CONDITION1 . ou CONDITION2
+   74           | CONDITION1 . et CONDITION2
+
+    ou  décalage et aller à l'état 106
+    et  décalage et aller à l'état 107
+
+    $défaut  réduction par utilisation de la règle 71 (CONDITION)
+
+
+état 132
+
+   72 CONDITION1: CONDITION1 ou CONDITION2 .
+
+    $défaut  réduction par utilisation de la règle 72 (CONDITION1)
+
+
+état 133
+
+   74 CONDITION1: CONDITION1 et CONDITION2 .
+
+    $défaut  réduction par utilisation de la règle 74 (CONDITION1)
+
+
+état 134
+
+   64 LOOP: dowhile gparen CONDITION dparen LIST_INST . enddo
+
+    enddo  décalage et aller à l'état 145
+
+
+état 135
+
+   80 VAR_LIST: ID cm VAR_LIST .
+
+    $défaut  réduction par utilisation de la règle 80 (VAR_LIST)
+
+
+état 136
+
+   78 EQUIV: gparen VAR_LIST dparen cm . EQUIV
+
+    gparen  décalage et aller à l'état 38
+
+    EQUIV  aller à l'état 146
+
+
+état 137
+
+   56 ID_LIST: ID . cm ID_LIST
+   57        | ID . END_LIST
+
+    cm      décalage et aller à l'état 147
+    dparen  décalage et aller à l'état 148
+
+    END_LIST  aller à l'état 149
+
+
+état 138
+
+   54 WRITE: write gparen str_val cm ID_LIST .
+
+    $défaut  réduction par utilisation de la règle 54 (WRITE)
+
+
+état 139
+
+   49 CALL_FUNCTION: call id gparen . ARGUMENT_LIST dparen
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    $défaut  réduction par utilisation de la règle 52 (ARGUMENT_LIST)
+
+    E              aller à l'état 150
+    E1             aller à l'état 65
+    E2             aller à l'état 66
+    E3             aller à l'état 67
+    VAR            aller à l'état 68
+    BOOL           aller à l'état 69
+    ID             aller à l'état 70
+    TAB_ID         aller à l'état 22
+    ARGUMENT_LIST  aller à l'état 151
+
+
+état 140
+
+    6 DEC_CHAR: id mult cst cm DEC_CHAR .
+
+    $défaut  réduction par utilisation de la règle 6 (DEC_CHAR)
+
+
+état 141
+
+    7 DEC_CHAR: id mult cst cm LIST_IDF .
+
+    $défaut  réduction par utilisation de la règle 7 (DEC_CHAR)
+
+
+état 142
+
+   14 TAB: id dimension gparen cst cm . cst dparen
+
+    cst  décalage et aller à l'état 152
+
+
+état 143
+
+   13 TAB: id dimension gparen cst dparen .
+
+    $défaut  réduction par utilisation de la règle 13 (TAB)
+
+
+état 144
+
+   48 TAB_ID: id gparen E cm E dparen .
+
+    $défaut  réduction par utilisation de la règle 48 (TAB_ID)
+
+
+état 145
+
+   64 LOOP: dowhile gparen CONDITION dparen LIST_INST enddo .
+
+    $défaut  réduction par utilisation de la règle 64 (LOOP)
+
+
+état 146
+
+   78 EQUIV: gparen VAR_LIST dparen cm EQUIV .
+
+    $défaut  réduction par utilisation de la règle 78 (EQUIV)
+
+
+état 147
+
+   56 ID_LIST: ID cm . ID_LIST
+   58 END_LIST: cm . str_val dparen
+
+    id       décalage et aller à l'état 12
+    str_val  décalage et aller à l'état 153
+
+    ID       aller à l'état 137
+    TAB_ID   aller à l'état 22
+    ID_LIST  aller à l'état 154
+
+
+état 148
+
+   59 END_LIST: dparen .
+
+    $défaut  réduction par utilisation de la règle 59 (END_LIST)
+
+
+état 149
+
+   57 ID_LIST: ID END_LIST .
+
+    $défaut  réduction par utilisation de la règle 57 (ID_LIST)
+
+
+état 150
+
+   50 ARGUMENT_LIST: E . cm ARGUMENT_LIST
+   51              | E .
+
+    cm  décalage et aller à l'état 155
+
+    $défaut  réduction par utilisation de la règle 51 (ARGUMENT_LIST)
+
+
+état 151
+
+   49 CALL_FUNCTION: call id gparen ARGUMENT_LIST . dparen
+
+    dparen  décalage et aller à l'état 156
+
+
+état 152
+
+   14 TAB: id dimension gparen cst cm cst . dparen
+
+    dparen  décalage et aller à l'état 157
+
+
+état 153
+
+   58 END_LIST: cm str_val . dparen
+
+    dparen  décalage et aller à l'état 158
+
+
+état 154
+
+   56 ID_LIST: ID cm ID_LIST .
+
+    $défaut  réduction par utilisation de la règle 56 (ID_LIST)
+
+
+état 155
+
+   50 ARGUMENT_LIST: E cm . ARGUMENT_LIST
+
+    id        décalage et aller à l'état 12
+    cst       décalage et aller à l'état 58
+    int_val   décalage et aller à l'état 59
+    real_val  décalage et aller à l'état 60
+    str_val   décalage et aller à l'état 61
+    bool_val  décalage et aller à l'état 62
+    gparen    décalage et aller à l'état 63
+
+    $défaut  réduction par utilisation de la règle 52 (ARGUMENT_LIST)
+
+    E              aller à l'état 150
+    E1             aller à l'état 65
+    E2             aller à l'état 66
+    E3             aller à l'état 67
+    VAR            aller à l'état 68
+    BOOL           aller à l'état 69
+    ID             aller à l'état 70
+    TAB_ID         aller à l'état 22
+    ARGUMENT_LIST  aller à l'état 159
+
+
+état 156
+
+   49 CALL_FUNCTION: call id gparen ARGUMENT_LIST dparen .
+
+    $défaut  réduction par utilisation de la règle 49 (CALL_FUNCTION)
+
+
+état 157
+
+   14 TAB: id dimension gparen cst cm cst dparen .
+
+    $défaut  réduction par utilisation de la règle 14 (TAB)
+
+
+état 158
+
+   58 END_LIST: cm str_val dparen .
+
+    $défaut  réduction par utilisation de la règle 58 (END_LIST)
+
+
+état 159
+
+   50 ARGUMENT_LIST: E cm ARGUMENT_LIST .
+
+    $défaut  réduction par utilisation de la règle 50 (ARGUMENT_LIST)
